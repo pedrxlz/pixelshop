@@ -36,8 +36,8 @@ export default function Cart() {
         icon: true,
       },
       success: {
-        render({ data }) {
-          return data?.message;
+        render() {
+          return "Pedido realizado com sucesso!";
         },
       },
       error: {
@@ -90,7 +90,7 @@ export default function Cart() {
                           <button
                             type="button"
                             className="-m-2 p-2 text-gray-400 hover:text-gray-500"
-                            onClick={() => setOpen(false)}
+                            onClick={() => closeCart(false)}
                           >
                             <span className="sr-only">Close panel</span>
                             <XMarkIcon className="h-6 w-6" aria-hidden="true" />
