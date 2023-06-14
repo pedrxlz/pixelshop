@@ -5,8 +5,8 @@ export const CartLine = ({ product, onRemove }) => {
     <li className="flex py-6">
       <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
         <Image
-          height={96}
-          width={96}
+          width={1920}
+          height={1080}
           src={product.image}
           alt={product.image}
           className="h-full w-full object-cover object-center"
@@ -19,7 +19,7 @@ export const CartLine = ({ product, onRemove }) => {
             <h3>
               <p>{product.name}</p>
             </h3>
-            <p className="ml-4">R$ {product.price}</p>
+            <p className="ml-4 whitespace-nowrap">R$ {product.price}</p>
           </div>
         </div>
         <div className="flex flex-1 items-end justify-between text-sm">

@@ -45,7 +45,7 @@ export default function RootLayout({ children }) {
       products: [],
     }
   );
-  console.log(state?.products);
+
   const handleToggleCart = (bool) => {
     dispatch({ type: "TOGGLE_CART", isCartOpen: bool });
   };
