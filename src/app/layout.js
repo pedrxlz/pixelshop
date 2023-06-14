@@ -2,7 +2,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header/index.jsx";
-import { createContext, useReducer, useState } from "react";
+import { createContext, useReducer } from "react";
 import Cart from "@/components/Cart/index.jsx";
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,20 +16,38 @@ export const CartContext = createContext();
 export default function RootLayout({ children }) {
   const [state, dispatch] = useReducer(
     (state, action) => {
-      switch (action) {
+      switch (action.type) {
         case "TOGGLE_CART":
           return { ...state, isCartOpen: !state.isCartOpen };
+        case "ADD_PRODUCT":
+          if (
+            state.products.find((product) => product._id === action.product._id)
+          )
+            return state;
+
+          return {
+            ...state,
+            products: [...state.products, action.product],
+          };
+        case "REMOVE_PRODUCT":
+          return {
+            ...state,
+            products: state.products.filter(
+              (product) => product._id !== action.product._id
+            ),
+          };
         default:
           return state;
       }
     },
     {
       isCartOpen: false,
+      products: [],
     }
   );
-
+  console.log(state?.products);
   const handleToggleCart = (bool) => {
-    dispatch("TOGGLE_CART", { isCartOpen: bool });
+    dispatch({ type: "TOGGLE_CART", isCartOpen: bool });
   };
 
   return (
