@@ -1,11 +1,14 @@
-import { Fragment, useCallback, useContext, useMemo } from "react";
+import { Fragment, useCallback, useContext, useMemo, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { CartContext } from "@/app/layout.js";
 import { CartLine } from "../CartLine/index.jsx";
+import { toast } from "react-toastify";
+import { makeOrder } from "../../../services/products/index.js";
 
-export default function Cart({ open, setOpen }) {
+export default function Cart() {
   const { state, dispatch } = useContext(CartContext);
+  const [email, setEmail] = useState("");
 
   const subtotal = useMemo(() => {
     return state.products?.reduce((acc, product) => {
@@ -20,9 +23,38 @@ export default function Cart({ open, setOpen }) {
     [dispatch]
   );
 
+  const closeCart = (bool) => {
+    dispatch({ type: "CLOSE_CART", isCartOpen: bool });
+  };
+
+  const sendOrder = async () => {
+    toast.promise(makeOrder({ email, products: state?.products }), {
+      pending: {
+        render() {
+          return "Processando...";
+        },
+        icon: true,
+      },
+      success: {
+        render({ data }) {
+          return data?.message;
+        },
+      },
+      error: {
+        render({ data }) {
+          return data?.response?.data?.error;
+        },
+      },
+    });
+  };
+
   return (
-    <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={() => setOpen(false)}>
+    <Transition.Root show={state.isCartOpen} as={Fragment}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={() => closeCart(false)}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-in-out duration-500"
@@ -94,6 +126,8 @@ export default function Cart({ open, setOpen }) {
                             id="email"
                             class="block w-full rounded-md border-0 py-1.5 pl-3 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             placeholder="you@example.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                           />
                         </div>
                       </div>
@@ -103,7 +137,10 @@ export default function Cart({ open, setOpen }) {
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500"></p>
                       <div className="mt-6">
-                        <button className="flex items-center justify-center rounded-md border border-transparent w-full bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
+                        <button
+                          onClick={sendOrder}
+                          className="flex items-center justify-center rounded-md border border-transparent w-full bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                        >
                           Fazer pedido
                         </button>
                       </div>

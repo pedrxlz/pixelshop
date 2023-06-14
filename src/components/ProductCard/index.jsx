@@ -26,13 +26,13 @@ export const ProductCard = ({ product, handleClick }) => {
       <div className="group">
         {state.products.some((item) => item._id === product._id) ? (
           <CheckCircleIcon
-            className="h-7 w-7 flex-shrink-0 text-white absolute top-1 right-1 cursor-pointer z-10"
+            className="h-7 w-7 text-red-500 absolute top-1 right-1 cursor-pointer z-10 bg-white rounded-full p-0"
             aria-hidden="true"
             onClick={() => handleAddToCart({ product, type: "REMOVE_PRODUCT" })}
           />
         ) : (
           <PlusCircleIcon
-            className="h-7 w-7 flex-shrink-0 text-gray-300 absolute top-1 right-1 cursor-pointer z-10 hidden group-hover:block"
+            className="h-7 w-7 flex-shrink-0 text-red-500 absolute top-1 right-1 cursor-pointer z-10 md:hidden group-hover:block bg-white rounded-full"
             aria-hidden="true"
             onClick={() => handleAddToCart({ product, type: "ADD_PRODUCT" })}
           />
