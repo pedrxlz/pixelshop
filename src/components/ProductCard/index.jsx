@@ -1,10 +1,10 @@
 import Image from "next/image.js";
-import { CheckCircleIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
+import { CheckIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { useCallback, useContext } from "react";
 import { CartContext } from "@/app/layout.js";
 
 export const ProductCard = ({ product, handleClick }) => {
-  const handleAddToCart = useCallback(
+  const handleCart = useCallback(
     ({ product, type }) => {
       handleClick({ product, type });
     },
@@ -25,16 +25,16 @@ export const ProductCard = ({ product, handleClick }) => {
       </div>
       <div className="group">
         {state.products.some((item) => item._id === product._id) ? (
-          <CheckCircleIcon
-            className="h-7 w-7 text-red-500 absolute top-1 right-1 cursor-pointer z-10 bg-white rounded-full p-0"
+          <CheckIcon
+            className="h-6 w-6 flex-shrink-0 text-white absolute top-1 right-1 cursor-pointer z-10 bg-indigo-500 border-2 border-indigo-500 rounded font-bold p-0.5"
             aria-hidden="true"
-            onClick={() => handleAddToCart({ product, type: "REMOVE_PRODUCT" })}
+            onClick={() => handleCart({ product, type: "REMOVE_PRODUCT" })}
           />
         ) : (
-          <PlusCircleIcon
-            className="h-7 w-7 flex-shrink-0 text-red-500 absolute top-1 right-1 cursor-pointer z-10 md:hidden group-hover:block bg-white rounded-full"
+          <PlusIcon
+            className="h-6 w-6 flex-shrink-0 text-indigo-700 absolute top-1 right-1 cursor-pointer z-10 md:hidden group-hover:block bg-white border-2 border-indigo-500 rounded font-bold p-0.5"
             aria-hidden="true"
-            onClick={() => handleAddToCart({ product, type: "ADD_PRODUCT" })}
+            onClick={() => handleCart({ product, type: "ADD_PRODUCT" })}
           />
         )}
       </div>
