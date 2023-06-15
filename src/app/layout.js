@@ -9,11 +9,6 @@ import { ToastContainer } from "react-toastify";
 import { cart } from "@/reducers/cart.js";
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
-  title: "Pixel Shop",
-  description: "Melhores ofertas da Nintendo",
-};
-
 export const CartContext = createContext();
 
 export default function RootLayout({ children }) {
